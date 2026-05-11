@@ -1,4 +1,3 @@
-````markdown id="h95d8v"
 # Gerenciador de Endereços - Processo Seletivo AEC
 
 Este projeto é uma aplicação web desenvolvida em ASP.NET Core 9.0 MVC para gerenciamento de endereços. O sistema permite autenticação de usuários, gerenciamento completo de endereços, integração com a API ViaCEP e exportação dos dados para CSV.
@@ -283,4 +282,4 @@ Os scripts JavaScript ficam centralizados na Index.cshtml utilizando:
 - Banco SQLite automático
 - Interface responsiva com Bootstrap
 - Seed automática implementada
-````
+
