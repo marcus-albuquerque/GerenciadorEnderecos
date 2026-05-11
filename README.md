@@ -72,7 +72,7 @@ Na primeira execução da aplicação:
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
+git clone https://github.com/marcus-albuquerque/GerenciadorEnderecos.git
 cd NOME_DO_REPOSITORIO
 ```
 
