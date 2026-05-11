@@ -1,0 +1,15 @@
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header text-danger"><h5>Confirmar Exclusão</h5></div>
+            <div class="modal-body text-center">Deseja realmente excluir este endereço?</div>
+            <div class="modal-footer">
+                <form id="formExcluir" method="post" asp-action="Deletar">
+                    <input type="hidden" name="id" id="excluir-id" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger">Sim, Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

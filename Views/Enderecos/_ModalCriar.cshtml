@@ -1,0 +1,37 @@
+<div class="modal fade" id="modalCriar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Criar" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Endereço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label">CEP</label>
+                        <input type="text" name="Cep" id="cepCriar" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Logradouro</label>
+                        <input type="text" name="Logradouro" id="logradouroCriar" class="form-control" required />
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-2"><label>Bairro</label><input type="text" name="Bairro" id="bairroCriar" class="form-control" /></div>
+                        <div class="col-6 mb-2"><label>Número</label><input type="text" name="Numero" class="form-control" required /></div>
+                    </div>
+                    <div class="mb-2">
+    <label class="form-label">Complemento (Opcional)</label>
+    <input type="text" name="Complemento" id="complementoCriar" class="form-control" />
+</div>                    
+                    <div class="row">
+                        <div class="col-8 mb-2"><label>Cidade</label><input type="text" name="Cidade" id="cidadeCriar" class="form-control" /></div>
+                        <div class="col-4 mb-2"><label>UF</label><input type="text" name="Uf" id="ufCriar" class="form-control" maxlength="2" /></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

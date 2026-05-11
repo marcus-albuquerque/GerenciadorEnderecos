@@ -1,0 +1,117 @@
+@model IEnumerable<GerenciadorEnderecos.Models.Endereco>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Gerenciamento de Endereços</h2>
+        <div>
+            <a asp-action="ExportarCsv" class="btn btn-success">Exportar CSV</a>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCriar">Novo Endereço</button>
+        </div>
+    </div>
+
+    <table class="table table-striped border">
+        <thead class="table-dark">
+            <tr>
+                <th>CEP</th>
+                <th>Logradouro</th>
+                <th>Bairro</th>
+                <th>Cidade/UF</th>
+                <th>Nº</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Cep</td>
+                        <td>@item.Logradouro</td>
+                        <td>@item.Bairro</td>
+                        <td>@item.Cidade/@item.Uf</td>
+                        <td>@item.Numero</td>
+                        <td class="text-center">
+                            @* Ajuste no botão para garantir que o JSON seja lido corretamente *@
+                            <button class="btn btn-sm btn-warning" 
+                                    onclick='abrirEdicao(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(item)))'>
+                                Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmarExclusao(@item.Id)">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Nenhum endereço cadastrado.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<partial name="_ModalCriar" />
+<partial name="_ModalEditar" />
+<partial name="_ModalExcluir" />
+
+@section Scripts {
+    <script>
+        document.addEventListener('blur', function (event) {
+            if (event.target && event.target.id === 'cepCriar') {
+                const cepValue = event.target.value.replace(/\D/g, '');
+                
+                if (cepValue.length === 8) {
+                    event.target.classList.add('is-validating'); 
+                    
+                    fetch(`/Enderecos/BuscarCep?cep=${cepValue}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Erro na rede');
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (!data.erro) {
+                                document.getElementById('logradouroCriar').value = data.logradouro || '';
+                                document.getElementById('bairroCriar').value = data.bairro || '';
+                                document.getElementById('cidadeCriar').value = data.localidade || '';
+                                document.getElementById('ufCriar').value = data.uf || '';
+                                document.getElementsByName('Numero')[0]?.focus();
+                            } else {
+                                alert("CEP não encontrado.");
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Falha na busca:", err);
+                        });
+                }
+            }
+        }, true);
+
+        function abrirEdicao(obj) {
+            try {
+                // O segredo está aqui: Tentamos ler com letra Maiúscula (C#) ou minúscula (JSON padrão)
+                document.getElementById('edit-id').value = obj.Id || obj.id;
+                document.getElementById('edit-usuarioId').value = obj.UsuarioId || obj.usuarioId;
+                document.getElementById('edit-cep').value = obj.Cep || obj.cep;
+                document.getElementById('edit-logradouro').value = obj.Logradouro || obj.logradouro;
+                document.getElementById('edit-bairro').value = obj.Bairro || obj.bairro;
+                document.getElementById('edit-cidade').value = obj.Cidade || obj.cidade;
+                document.getElementById('edit-uf').value = obj.Uf || obj.uf;
+                document.getElementById('edit-numero').value = obj.Numero || obj.numero;
+                document.getElementById('edit-complemento').value = obj.Complemento || obj.complemento || "";
+
+                var modalElement = document.getElementById('modalEditar');
+                var modalInstance = new bootstrap.Modal(modalElement);
+                modalInstance.show();
+            } catch (e) {
+                console.error("Erro ao abrir edição:", e);
+            }
+        }
+
+        function confirmarExclusao(id) {
+            document.getElementById('excluir-id').value = id;
+            new bootstrap.Modal(document.getElementById('modalExcluir')).show();
+        }
+    </script>
+}
